@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masjid Darus Sunnah</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#"><i class="bi bi-moon-stars-fill" style="color: var(--accent-gold);"></i> Masjid Darus Sunnah</a>
+        <div class="ms-auto d-flex align-items-center">
+            <span id="jam-realtime" class="fw-bold me-4" style="color: var(--text-muted);"></span>
+            <a href="/admin/login" class="nav-btn-login text-decoration-none">Login Admin <i class="bi bi-arrow-right"></i></a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+                <h1 class="hero-title">Membangun Generasi Qurani Bersama Masjid</h1>
+                <p class="hero-subtitle">Masjid Darus Sunnah: Wadah Beribadah, Belajar, dan Berbakti demi Umat yang Rahmatan Lil 'Alamin.</p>
+                <div class="d-flex gap-3">
+                    <a href="/donasi" class="btn btn-primary-custom">Donasi Sekarang</a>
+                    <a href="#jadwal" class="btn btn-outline-custom">Jadwal Shalat</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image-container">
+                    <img src="/uploads/Masjid-Raya-Medan-Wikipedia.webp" alt="Masjid" class="hero-img">
+                    <div class="glass-card text-center">
+                        <small class="fw-bold text-dark d-block mb-1">Waktu Shalat Berikutnya</small>
+                        <h4 id="next-prayer-hero" class="fw-bold mb-0" style="color: var(--primary-green);">Menghitung...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="jadwal" class="container">
+    <div class="prayer-wrapper">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <h4 class="fw-bold mb-0" style="color: var(--text-dark);">Prayer Times</h4>
+            <span id="tanggal-masehi" class="text-muted fw-bold"></span>
+        </div>
+        <div class="row" id="prayer-times-container">
+            <div class="col-12"><p class="text-center text-muted">Memuat jadwal otomatis...</p></div>
+        </div>
+    </div>
+</section>
+
+<% if (pengumuman && pengumuman.length > 0) { %>
+    <section class="container mt-4">
+        <div class="alert alert-warning shadow-sm border-0 border-start border-4 border-warning">
+            <h5 class="alert-heading fw-bold text-dark"><i class="bi bi-megaphone-fill"></i> Pengumuman Penting</h5><hr>
+            <% pengumuman.forEach(p => { %>
+                <div class="mb-3"><strong class="text-dark"><%= p.judul %></strong> <small class="text-muted">(<%= p.tanggal %>)</small><br><span class="text-dark"><%= p.isi %></span></div>
+            <% }) %>
+        </div>
+    </section>
+<% } %>
+
+<section id="kegiatan" class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <h4 class="fw-bold mb-4" style="color: var(--primary-green)">
+                <i class="bi bi-journal-text"></i> Kajian Mendatang
+            </h4>
+
+            <div class="kajian-grid">
+                <% if(!kajian || kajian.length === 0) { %>
+                    <p class="text-muted">Belum ada jadwal kajian.</p>
+                <% } else { %>
+                    <% kajian.forEach(k => { %>
+                        <div class="kajian-card">
+                            <div class="kajian-date-tag">
+                                <i class="bi bi-calendar3 me-1"></i> <%= k.tanggal %>
+                            </div>
+
+                            <h5 class="kajian-title"><%= k.judul %></h5>
+
+                            <div class="kajian-info-item">
+                                <i class="bi bi-person-circle"></i>
+                                <span><strong><%= k.ustadz %></strong></span>
+                            </div>
+
+                            <div class="kajian-info-item">
+                                <i class="bi bi-book"></i>
+                                <span><%= k.tema %></span>
+                            </div>
+                        
+                            <div class="kajian-footer">
+                                <span class="badge bg-light text-dark rounded-pill px-3 py-2 border">
+                                    <i class="bi bi-clock text-success me-1"></i> <%= k.jam %> WIB
+                                </span>
+                                <span class="small text-muted">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> <%= k.lokasi %>
+                                </span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <h4 class="fw-bold mb-4" style="color: var(--primary-green)"><i class="bi bi-mic-fill"></i> Jadwal Khatib</h4>
+            <div class="list-group mb-5 shadow-sm">
+                <% if(!khatib || khatib.length === 0) { %><div class="list-group-item text-muted">Belum ada jadwal.</div><% } else { %>
+                    <% khatib.forEach(k => { %>
+                        <div class="list-group-item border-0 border-bottom py-3">
+                            <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 fw-bold text-primary"><%= k.nama %></h6><small class="text-success fw-bold"><%= k.tanggal %></small></div>
+                            <small class="text-muted">Tema: <%= k.tema %></small>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-3" style="background-color: #f7fdf9;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="text-success fw-bold text-uppercase" style="letter-spacing: 1px;">Transparansi Dana</h6>
+            <h2 class="fw-extrabold" style="color: #164230;">Laporan Kas Masjid</h2>
+            <p class="text-muted">Laporan keuangan real-time sebagai bentuk amanah kepada jamaah.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="modern-card p-4 border-0 shadow-sm bg-white h-100" style="border-radius: 24px;">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success bg-opacity-10 p-3 rounded-4 me-3">
+                            <i class="bi bi-graph-up-arrow fs-3 text-success"></i>
+                        </div>
+                        <div>
+                            <p class="text-muted mb-0 small fw-bold">Total Pemasukan</p>
+                            <h4 class="fw-bold mb-0 text-success">Rp <%= totalPemasukan.toLocaleString('id-ID') %></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="modern-card p-4 border-0 shadow-sm bg-white h-100" style="border-radius: 24px;">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-danger bg-opacity-10 p-3 rounded-4 me-3">
+                            <i class="bi bi-graph-down-arrow fs-3 text-danger"></i>
+                        </div>
+                        <div>
+                            <p class="text-muted mb-0 small fw-bold">Total Pengeluaran</p>
+                            <h4 class="fw-bold mb-0 text-danger">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="modern-card p-4 border-0 shadow-sm h-100 text-white" 
+                    style="border-radius: 24px; background: linear-gradient(135deg, #164230 0%, #2B5C4A 100%);">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success bg-opacity-15 p-3 rounded-4 me-3">
+                            <i class="bi bi-cash text-success fs-3 text-white"></i>
+                        </div>
+                        <div>
+                            <p class="text-white-50 mb-0 small fw-bold">Saldo Saat Ini</p>
+                            <h4 class="fw-bold mb-0 text-white">Rp <%= (totalPemasukan - totalPengeluaran).toLocaleString('id-ID') %></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <h6 class="text-success fw-bold text-uppercase mb-2" style="letter-spacing: 1px;">Infaq & Donasi</h6>
+                <h2 class="fw-extrabold mb-4" style="color: #164230; font-size: 2.5rem;">Menebar Kebaikan Melalui Jari Anda</h2>
+                <p class="text-muted mb-4 fs-5">Salurkan bantuan terbaik Anda untuk pembangunan dan kemakmuran Masjid Darus Sunnah. Setiap rupiah yang Anda infaqkan menjadi amal jariyah yang tak terputus.</p>
+                
+                <div class="d-flex gap-3 mb-5">
+                    <a href="/donasi" class="btn btn-success btn-lg rounded-pill px-4 fw-bold shadow-sm" style="background-color: #164230; border: none;">
+                        <i class="bi bi-qr-code-scan me-2"></i> Donasi via QRIS
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="modern-card p-4 shadow-sm" style="background: linear-gradient(135deg, #ffffff 0%, #f9fbf9 100%); border-radius: 30px; border: 1px solid rgba(22, 66, 48, 0.05);">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-success bg-opacity-10 p-3 rounded-4 me-3">
+                            <i class="bi bi-bank2 fs-3 text-success"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Rekening Resmi Masjid</h5>
+                            <small class="text-muted">Transfer Bank Manual</small>
+                        </div>
+                    </div>
+
+                    <div class="p-3 mb-3 rounded-4 bg-white border d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="small text-muted mb-0">Bank Syariah Indonesia (BSI)</p>
+                            <h5 class="fw-bold mb-0" id="rekBsi">7123456789</h5>
+                            <p class="small mb-0 text-dark fw-medium">a.n Masjid Darus Sunnah</p>
+                        </div>
+                        <button class="btn btn-sm btn-light rounded-3" onclick="copyToClipboard('7123456789')">
+                            <i class="bi bi-content-copy"></i> Salin
+                        </button>
+                    </div>
+
+                    <div class="p-3 rounded-4 bg-white border d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="small text-muted mb-0">Bank Muamalat</p>
+                            <h5 class="fw-bold mb-0" id="rekMuamalat">1230009876</h5>
+                            <p class="small mb-0 text-dark fw-medium">a.n Masjid Darus Sunnah</p>
+                        </div>
+                        <button class="btn btn-sm btn-light rounded-3" onclick="copyToClipboard('1230009876')">
+                            <i class="bi bi-content-copy"></i> Salin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // 1. Live Jam Digital
+    setInterval(() => {
+        const now = new Date();
+        const jamEl = document.getElementById('jam-realtime');
+        if(jamEl) jamEl.innerText = now.toLocaleTimeString('id-ID') + ' WIB';
+    }, 1000);
+
+    // 2. Fetch API Jadwal Shalat (Otomatis & Anti-Crash)
+    async function muatJadwalShalat() {
+        try {
+            // Mengambil data dari server Aladhan untuk kota Rantauprapat
+            const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Rantauprapat&country=Indonesia&method=20');
+            
+            if (!response.ok) throw new Error('Koneksi ke server jadwal terblokir jaringan.');
+            
+            const data = await response.json();
+            if(data.code !== 200) throw new Error('Format data API berubah.');
+            
+            const jadwal = data.data.timings;
+            const tanggal = data.data.date;
+            
+            // Tampilkan Tanggal
+            const tglElement = document.getElementById('tanggal-masehi');
+            if(tglElement) tglElement.innerText = tanggal.readable;
+            
+            const times = [
+                { name: 'Subuh', time: jadwal.Fajr },
+                { name: 'Dzuhur', time: jadwal.Dhuhr },
+                { name: 'Ashar', time: jadwal.Asr },
+                { name: 'Maghrib', time: jadwal.Maghrib },
+                { name: 'Isya', time: jadwal.Isha }
+            ];
+
+            // Menentukan Jadwal Terdekat Secara Otomatis
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            let nextPrayer = times[0]; // Default kembali ke Subuh jika sudah lewat Isya
+            
+            for (let i = 0; i < times.length; i++) {
+                const timeParts = times[i].time.split(':');
+                const prayerMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+                if (prayerMinutes > currentMinutes) {
+                    nextPrayer = times[i];
+                    break;
+                }
+            }
+
+            // Tampilkan di Hero Section (Kotak Kaca)
+            const heroNext = document.getElementById('next-prayer-hero');
+            if(heroNext) heroNext.innerText = `${nextPrayer.name} | ${nextPrayer.time} WIB`;
+
+            // Buat HTML Kotak-kotak Jadwal Shalat
+            let html = '';
+            times.forEach(t => {
+                const activeClass = (t.name === nextPrayer.name) ? 'active' : '';
+                let icon = 'bi-brightness-high';
+                if(t.name === 'Maghrib' || t.name === 'Isya' || t.name === 'Subuh') icon = 'bi-moon-stars';
+
+                html += `
+                <div class="col-md-2 col-6 mb-3 flex-fill">
+                    <div class="prayer-card ${activeClass}">
+                        <h5 class="mb-3"><i class="bi ${icon} fs-4"></i><br>${t.name}</h5>
+                        <h3>${t.time}</h3>
+                    </div>
+                </div>`;
+            });
+            
+            document.getElementById('prayer-times-container').innerHTML = html;
+
+        } catch (error) {
+            console.error('Error Detail:', error);
+            // Tampilkan pesan merah jika gagal
+            document.getElementById('prayer-times-container').innerHTML = 
+                `<div class="col-12">
+                    <div class="alert alert-danger text-center shadow-sm border-0">
+                        <i class="bi bi-exclamation-triangle-fill"></i> <strong>Gagal memuat jadwal shalat.</strong><br>
+                        <small>${error.message}</small>
+                    </div>
+                </div>`;
+            document.getElementById('next-prayer-hero').innerText = "Gagal memuat jadwal";
+        }
+    }
+
+    // Jalankan fungsinya
+    muatJadwalShalat();
+</script>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Nomor rekening berhasil disalin!');
+    }, function(err) {
+        console.error('Gagal menyalin: ', err);
+    });
+}
+</script>
+</body>
+</html>

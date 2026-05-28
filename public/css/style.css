@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+:root { 
+    --bg-cream: #FDFBF7; 
+    --primary-green: #2B5C4A; 
+    --light-green: #E8F0EC; 
+    --accent-gold: #D4AF37; 
+    --text-dark: #1E293B; 
+    --text-muted: #2B5C4A; 
+}
+
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background-color: var(--bg-cream); 
+    color: var(--text-dark); 
+}
+
+.navbar { 
+    background-color: var(--bg-cream) !important; 
+    padding: 20px 0; 
+}
+
+.navbar-brand { color: var(--primary-green) !important; font-size: 1.5rem; }
+.nav-btn-login { background-color: transparent; color: var(--text-dark); border: none; font-weight: 600; }
+.btn-primary-custom { background-color: var(--primary-green); color: white; border-radius: 50px; padding: 12px 32px; font-weight: 600; border: none; transition: all 0.3s; }
+.btn-primary-custom:hover { background-color: #1f4537; color: white; }
+.btn-outline-custom { background-color: transparent; color: var(--text-dark); border: 2px solid var(--text-dark); border-radius: 50px; padding: 10px 32px; font-weight: 600; transition: all 0.3s; }
+.hero-section { padding: 80px 0; position: relative; overflow: hidden; }
+.hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.2; color: var(--text-dark); margin-bottom: 20px; }
+.hero-subtitle { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 40px; }
+.hero-image-container { position: relative; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 40px rgba(43, 92, 74, 0.1); }
+.hero-img { width: 100%; height: 500px; object-fit: cover; }
+.glass-card { position: absolute; bottom: 30px; right: 30px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; padding: 20px 25px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+.prayer-wrapper { background: white; border-radius: 30px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-top: -50px; position: relative; z-index: 10; }
+.prayer-card { background: var(--bg-cream); border-radius: 20px; padding: 25px 15px; text-align: center; border: none; transition: all 0.3s ease; }
+.prayer-card h5 { color: var(--text-muted); font-size: 1rem; font-weight: 600;}
+.prayer-card h3 { color: var(--text-dark); font-weight: 800; margin-top: 10px;}
+.prayer-card.active { background-color: var(--primary-green); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(43, 92, 74, 0.2); }
+.prayer-card.active h5, .prayer-card.active h3 { color: white !important; }
+
+
+/* Modern Study Card Design */
+.kajian-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.kajian-card {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.kajian-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(43, 92, 74, 0.08);
+    border-color: var(--primary-green);
+}
+
+.kajian-date-tag {
+    display: inline-block;
+    background: var(--light-green);
+    color: var(--primary-green);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.kajian-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.kajian-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.kajian-info-item i {
+    color: var(--primary-green);
+    font-size: 1.1rem;
+}
+
+.kajian-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Jika ukuran layar minimal Tablet (768px) ke atas, jadi 2 kolom */
+@media (max-width: 768px) {
+    .kajian-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .navbar-brand {font-size: 1rem;}
+    .ms-auto {font-size: 0.7rem;}
+    .hero-section {padding-top: 30px;}
+    .hero-title {font-size: 2rem;}
+}
+
+/* Jika ukuran layar Laptop/PC (1200px) ke atas, bisa sesuaikan lagi jika ruangnya luas */
+@media (min-width: 1200px) {
+    .kajian-grid {
+        /* Tetap 2 kolom jika di sampingnya ada jadwal khatib (col-lg-8) */
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+/* Pastikan gambar atau kartu tidak meluber keluar layar */
+.kajian-card, .modern-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}

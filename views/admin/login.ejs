@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Masjid Darus Sunnah</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #FDFBF7; font-family: 'Plus Jakarta Sans', sans-serif; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-card {
+            background: white; border-radius: 40px; padding: 50px;
+            width: 100%; max-width: 450px; border: none;
+            box-shadow: 0 20px 60px rgba(22, 66, 48, 0.08);
+        }
+        .brand-icon {
+            background: #164230; color: white; width: 60px; height: 60px;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 1.8rem;
+        }
+        .form-control {
+            border-radius: 15px; padding: 14px 20px; border: 1.5px solid #eee;
+            background: #F8F9FA; font-weight: 500;
+        }
+        .form-control:focus { border-color: #164230; box-shadow: none; background: white; }
+        .btn-login {
+            background: #164230; color: white; border-radius: 15px;
+            padding: 14px; font-weight: 700; border: none; width: 100%;
+            transition: all 0.3s;
+        }
+        .btn-login:hover { background: #2B5C4A; transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+    <div class="login-card text-center">
+        <div class="brand-icon">🕌</div>
+        <h3 class="fw-extrabold mb-1" style="color: #164230;">Selamat Datang</h3>
+        <p class="text-muted mb-4 fw-medium">Masuk ke Panel Admin Darus Sunnah</p>
+
+        <% if(error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-danger border-0 rounded-4 small py-2"><%= error_msg %></div>
+        <% } %>
+
+        <form action="/admin/login" method="POST">
+            <div class="mb-3 text-start">
+                <label class="form-label small fw-bold text-muted ps-2">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Masukkan username..." required>
+            </div>
+            <div class="mb-4 text-start">
+                <label class="form-label small fw-bold text-muted ps-2">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-login">Masuk Sekarang</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<div class="sidebar-wrapper" style="width: 290px;">
+        <div class="sidebar d-flex flex-column">
+            <a href="/admin/dashboard" class="sidebar-brand">
+                <i class="bi bi-moon-stars-fill text-warning fs-3"></i> Masjid Darus Sunnah
+            </a>
+            
+<nav class="nav flex-column mb-auto mt-2">
+                <a href="/admin/dashboard" class="nav-link <%= title==='Dashboard'?'active':'' %>">
+                    <i class="bi bi-grid-fill"></i> Dashboard
+                </a>
+                
+                <% if(user.role === 'Super Admin' || user.role === 'Ketua BKM' || user.role === 'Bendahara') { %>
+                <a href="/admin/keuangan" class="nav-link <%= title==='Keuangan'?'active':'' %>">
+                    <i class="bi bi-wallet2"></i> Keuangan
+                </a>
+                <a href="/admin/donasi" class="nav-link <%= title==='Donasi QRIS'?'active':'' %>">
+                    <i class="bi bi-qr-code-scan"></i> Donasi QRIS
+                </a>
+                <% } %>
+                
+                <% if(user.role === 'Super Admin' || user.role === 'Ketua BKM' || user.role === 'Sekretaris') { %>
+                <a href="/admin/kajian" class="nav-link <%= title==='Kajian'?'active':'' %>">
+                    <i class="bi bi-journal-richtext"></i> Program Kajian
+                </a>
+                <a href="/admin/khatib" class="nav-link <%= title==='Khatib'?'active':'' %>">
+                    <i class="bi bi-mic-fill"></i> Jadwal Khatib
+                </a>
+                <a href="/admin/pengumuman" class="nav-link <%= title==='Pengumuman'?'active':'' %>">
+                    <i class="bi bi-megaphone-fill"></i> Pengumuman
+                </a>
+                <% } %>
+                
+                <% if(user.role === 'Super Admin' || user.role === 'Ketua BKM') { %>
+                <a href="/admin/users" class="nav-link <%= title==='Pengaturan Admin'?'active':'' %>">
+                    <i class="bi bi-gear-fill"></i> Pengaturan Admin
+                </a>
+                <% } %>
+            </nav>
+            
+            <div class="admin-profile">
+                    <div class="text-end d-none d-sm-block">
+                        <h6 class="mb-0 fw-bold" style="color: #164230;"><%= user.nama %></h6>
+                        <small class="text-white fw-bold"><%= user.role %></small>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=<%= user.nama %>&background=164230&color=fff&bold=true" alt="Admin">
+                </div>
+            
+            <div class="mt-auto">
+                <a href="/" target="_blank" class="nav-link text-white bg-white bg-opacity-10 mb-2">
+                    <i class="bi bi-box-arrow-up-right"></i> Lihat Web Publik
+                </a>
+                <a href="/admin/logout" class="nav-link text-danger bg-danger bg-opacity-10">
+                    <i class="bi bi-box-arrow-left"></i> Logout Keluar
+                </a>
+            </div>
+        </div>
+    </div> <div class="main-content">
+        
+        <div class="topbar">
+            <div>
+                <h3 class="fw-bold mb-1" style="color: #164230;">Dashboard Overview</h3>
+                <p class="text-muted mb-0 fw-medium">Selamat datang, kelola sistem informasi masjid Anda.</p>
+            </div>
+            
+            <div class="d-flex align-items-center gap-4">
+                <div class="search-wrapper d-none d-md-flex">
+                    <i class="bi bi-search text-muted"></i>
+                    <input type="text" placeholder="Cari data jamaah, keuangan...">
+                </div>
+                
+                <div class="admin-profile">
+                    <div class="text-end d-none d-sm-block">
+                        <h6 class="mb-0 fw-bold" style="color: #164230;">Administrator</h6>
+                        <small class="text-muted fw-bold">Pengurus DKM</small>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=164230&color=fff&bold=true" alt="Admin">
+                </div>
+            </div>
+        </div>
+        
+        <% if(success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success border-0 shadow-sm rounded-4"><i class="bi bi-check-circle-fill"></i> <%= success_msg %></div>
+        <% } %>
+        <% if(error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-danger border-0 shadow-sm rounded-4"><i class="bi bi-exclamation-triangle-fill"></i> <%= error_msg %></div>
+        <% } %>

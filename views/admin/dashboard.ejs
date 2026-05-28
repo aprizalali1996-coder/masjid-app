@@ -1,0 +1,108 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/sidebar') %>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="modern-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <p class="stat-label mb-0">Total Saldo Kas Masjid</p>
+                <div class="bg-success bg-opacity-10 text-success p-2 rounded-circle"><i class="bi bi-wallet-fill fs-5"></i></div>
+            </div>
+            <h2 class="stat-value mb-3">Rp <%= saldo ? saldo.toLocaleString('id-ID') : '0' %></h2>
+            <span class="trend-badge trend-up"><i class="bi bi-graph-up-arrow"></i> Diperbarui otomatis</span>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="modern-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <p class="stat-label mb-0">Program & Kajian</p>
+                <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle"><i class="bi bi-journal-bookmark-fill fs-5"></i></div>
+            </div>
+            <h2 class="stat-value mb-3"><%= totalKajian %> <small class="fs-5 text-muted fw-bold">Kegiatan</small></h2>
+            <span class="trend-badge" style="color: #0d6efd; background: #cfe2ff;"><i class="bi bi-calendar2-check-fill"></i> Telah Terdaftar</span>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="modern-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <p class="stat-label mb-0">Penyiaran Informasi</p>
+                <div class="bg-warning bg-opacity-10 text-warning p-2 rounded-circle"><i class="bi bi-broadcast fs-5"></i></div>
+            </div>
+            <h2 class="stat-value mb-3"><%= totalPengumuman %> <small class="fs-5 text-muted fw-bold">Pesan</small></h2>
+            <span class="trend-badge" style="color: #b36b00; background: #fff3cd;"><i class="bi bi-megaphone-fill"></i> Tampil di Web Publik</span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="modern-card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0" style="color: #164230;">Kalender Kegiatan Terbaru</h5>
+                <a href="/admin/kajian" class="btn btn-sm text-success fw-bold bg-success bg-opacity-10 rounded-pill px-3">Lihat Semua</a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle">
+                    <tbody>
+                        <% if(dataKajian && dataKajian.length > 0) { %>
+                            <% dataKajian.slice(0, 4).forEach(k => { %>
+                                <tr style="border-bottom: 1px solid #f0f0f0;">
+                                    <td class="py-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-light rounded-4 p-3 me-3 text-center" style="min-width: 65px;">
+                                                <small class="d-block fw-bold text-success fs-5"><%= k.tanggal.split('-')[2] %></small>
+                                                <small class="text-muted fw-bold" style="font-size: 0.75rem;">Bln <%= k.tanggal.split('-')[1] %></small>
+                                            </div>
+                                            <div>
+                                                <h6 class="fw-bold mb-1"><%= k.judul %></h6>
+                                                <small class="text-muted fw-bold"><i class="bi bi-person-fill text-success"></i> <%= k.ustadz %></small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end py-3">
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25">
+                                            <i class="bi bi-clock"></i> <%= k.jam %> WIB
+                                        </span>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td class="text-muted py-4">Belum ada kegiatan yang didaftarkan.</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="modern-card h-100" style="background: linear-gradient(135deg, #164230 0%, #2B5C4A 100%); color: white;">
+            <h5 class="fw-bold mb-4">Pusat Kendali Cepat</h5>
+            
+            <div class="d-flex flex-column gap-3">
+                <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-cash-coin fs-4 text-warning me-2"></i>
+                        <h6 class="fw-bold mb-0">Input Infaq Jumat</h6>
+                    </div>
+                    <p class="small opacity-75 mb-3">Catat pemasukan donasi atau pengeluaran operasional terbaru.</p>
+                    <a href="/admin/keuangan" class="btn btn-light btn-sm fw-bold rounded-pill w-100 text-success">Buka Buku Kas</a>
+                </div>
+
+                <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-mic-fill fs-4 text-info me-2"></i>
+                        <h6 class="fw-bold mb-0">Khatib Jumat Ini</h6>
+                    </div>
+                    <p class="small opacity-75 mb-3">Anda memiliki <%= totalKhatib %> jadwal khatib terdaftar dalam sistem.</p>
+                    <a href="/admin/khatib" class="btn btn-outline-light btn-sm fw-bold rounded-pill w-100">Atur Jadwal Khatib</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

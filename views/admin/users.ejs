@@ -1,0 +1,64 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/sidebar') %>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="modern-card">
+            <h5 class="fw-bold mb-4">Daftar Pengurus (Admin)</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <tbody>
+                        <% data.forEach(u => { %>
+                        <tr>
+                            <td style="width: 60px;">
+                                <img src="https://ui-avatars.com/api/?name=<%= u.nama %>&background=E8F0EC&color=2B5C4A&bold=true" class="rounded-circle" width="45">
+                            </td>
+                            <td>
+                                <h6 class="fw-bold mb-0"><%= u.nama %></h6>
+                                <small class="text-muted">@<%= u.username %></small>
+                            </td>
+                            <td class="text-end">
+                                <span class="badge bg-light text-dark border rounded-pill px-3 py-2 me-3">Jabatan: <%= u.role %></span>
+                                <% if(user.role === 'Super Admin' && u.id !== user.id) { %>
+                                    <a href="/admin/users/delete/<%= u.id %>" class="text-danger" onclick="return confirm('Hapus akses admin ini?')"><i class="bi bi-x-circle fs-5"></i></a>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <% if(user.role === 'Super Admin') { %>
+    <div class="col-md-4">
+        <div class="modern-card" style="background: #FDFBF7;">
+            <h5 class="fw-bold mb-3">Tambah Pengurus Baru</h5>
+            <form action="/admin/users/add" method="POST">
+                <div class="mb-3">
+                    <input type="text" name="nama" class="form-control rounded-4 p-3" placeholder="Nama Lengkap" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="username" class="form-control rounded-4 p-3" placeholder="Username Login" required>
+                </div>
+                <div class="mb-3">
+                    <select name="role" class="form-select rounded-4 p-3" required>
+                        <option value="" disabled selected>-- Pilih Hak Akses (Jabatan) --</option>
+                        <option value="Super Admin">Super Admin (Akses Penuh)</option>
+                        <option value="Ketua BKM">Ketua BKM (Akses Semua Menu)</option>
+                        <option value="Sekretaris">Sekretaris (Kajian, Khatib, Info)</option>
+                        <option value="Bendahara">Bendahara (Akses Keuangan)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <input type="password" name="password" class="form-control rounded-4 p-3" placeholder="Password Sementara" required>
+                </div>
+                <button type="submit" class="btn text-white w-100 py-3 rounded-4 fw-bold" style="background-color: #164230;">Buat Akun</button>
+            </form>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<%- include('../layouts/footer') %>

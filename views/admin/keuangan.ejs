@@ -1,0 +1,148 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/sidebar') %>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="modern-card text-white" style="background: linear-gradient(135deg, #164230 0%, #2B5C4A 100%); border: none;">
+            <p class="stat-label text-white-50">Saldo Kas Masjid</p>
+            <h3 class="fw-bold mb-0">Rp <%= (totalPemasukan - totalPengeluaran).toLocaleString('id-ID') %></h3>
+            <div class="small mt-2 text-white-50">Dana siap pakai</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="modern-card border-0 shadow-sm">
+            <p class="stat-label text-success">Total Pemasukan</p>
+            <h3 class="fw-bold mb-0" style="color: #164230;">Rp <%= totalPemasukan.toLocaleString('id-ID') %></h3>
+            <div class="small mt-2 text-muted"><i class="bi bi-arrow-up-right text-success"></i> Semua Infaq</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="modern-card border-0 shadow-sm">
+            <p class="stat-label text-danger">Total Pengeluaran</p>
+            <h3 class="fw-bold text-danger mb-0">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></h3>
+            <div class="small mt-2 text-muted"><i class="bi bi-arrow-down-left text-danger"></i> Operasional</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="modern-card d-flex align-items-center justify-content-center" style="background: #FDFBF7; border: 2px dashed #164230; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalTambah">
+            <div class="text-center">
+                <i class="bi bi-plus-circle-fill fs-3" style="color: #164230;"></i>
+                <span class="d-block fw-bold mt-1" style="color: #164230;">Tambah Transaksi</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modern-card">
+    <h5 class="fw-bold mb-4">Riwayat Transaksi Terakhir</h5>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="bg-light">
+                <tr class="text-muted small text-uppercase">
+                    <th class="ps-4">Tanggal</th>
+                    <th>Keterangan</th>
+                    <th>Jenis</th>
+                    <th>Nominal</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(item => { %>
+                    <tr style="border-bottom: 1px solid #f8f9fa;">
+                        <td class="ps-4 fw-medium text-muted"><%= item.tanggal %></td>
+                        <td class="fw-bold"><%= item.keterangan %></td>
+                        <td>
+                            <span class="badge rounded-pill <%= item.jenis === 'pemasukan' ? 'bg-success' : 'bg-danger' %> bg-opacity-10 <%= item.jenis === 'pemasukan' ? 'text-success' : 'text-danger' %> px-3 py-2">
+                                <%= item.jenis.toUpperCase() %>
+                            </span>
+                        </td>
+                        <td class="fw-bold text-dark">Rp <%= item.nominal.toLocaleString('id-ID') %></td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-success rounded-3 me-2" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalEdit<%= item.id %>">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <a href="/admin/keuangan/delete/<%= item.id %>" class="btn btn-sm btn-outline-danger rounded-3" onclick="return confirm('Hapus transaksi ini?')">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTambah" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 30px;">
+            <div class="modal-body p-5">
+                <h4 class="fw-bold mb-4" style="color: #164230;">Catat Transaksi</h4>
+                <form action="/admin/keuangan/add" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Jenis</label>
+                        <select name="jenis" class="form-select rounded-4 p-3">
+                            <option value="pemasukan">Pemasukan (Infaq/Donasi)</option>
+                            <option value="pengeluaran">Pengeluaran (Operasional)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nominal (Rp)</label>
+                        <input type="number" name="nominal" class="form-control rounded-4 p-3" placeholder="Contoh: 100000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Keterangan</label>
+                        <input type="text" name="keterangan" class="form-control rounded-4 p-3" placeholder="Infaq Jumat / Listrik..." required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control rounded-4 p-3" required>
+                    </div>
+                    <button type="submit" class="btn btn-login py-3">Simpan Data</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% data.forEach(item => { %>
+<div class="modal fade" id="modalEdit<%= item.id %>" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 30px;">
+            <div class="modal-body p-5">
+                <h4 class="fw-bold mb-4" style="color: #164230;">Edit Transaksi</h4>
+                <form action="/admin/keuangan/edit/<%= item.id %>" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Jenis</label>
+                        <select name="jenis" class="form-select rounded-4 p-3">
+                            <option value="pemasukan" <%= item.jenis === 'pemasukan' ? 'selected' : '' %>>Pemasukan</option>
+                            <option value="pengeluaran" <%= item.jenis === 'pengeluaran' ? 'selected' : '' %>>Pengeluaran</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nominal (Rp)</label>
+                        <input type="number" name="nominal" class="form-control rounded-4 p-3" value="<%= item.nominal %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Keterangan</label>
+                        <input type="text" name="keterangan" class="form-control rounded-4 p-3" value="<%= item.keterangan %>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control rounded-4 p-3" value="<%= item.tanggal %>" required>
+                    </div>
+                    <button type="submit" class="btn text-white py-3 w-100 rounded-4 fw-bold" style="background-color: #164230;">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<% }) %>
+<%- include('../layouts/footer') %>

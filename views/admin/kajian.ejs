@@ -1,0 +1,85 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/sidebar') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0" style="color: #164230;">Manajemen Program Kajian</h4>
+    <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modalTambahKajian">
+        <i class="bi bi-plus-lg"></i> Tambah Jadwal
+    </button>
+</div>
+
+<div class="modern-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="bg-light">
+                <tr class="text-muted small text-uppercase">
+                    <th class="ps-4">Informasi Kajian</th>
+                    <th>Ustadz / Pemateri</th>
+                    <th>Waktu & Lokasi</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(k => { %>
+                <tr style="border-bottom: 1px solid #f8f9fa;">
+                    <td class="ps-4">
+                        <h6 class="fw-bold mb-0"><%= k.judul %></h6>
+                        <small class="text-muted"><%= k.tema %></small>
+                    </td>
+                    <td class="fw-bold text-success"><%= k.ustadz %></td>
+                    <td>
+                        <div class="small fw-bold"><i class="bi bi-calendar-event me-1"></i> <%= k.tanggal %></div>
+                        <div class="small text-muted"><i class="bi bi-clock me-1"></i> <%= k.jam %> WIB | <%= k.lokasi %></div>
+                    </td>
+                    <td class="text-center">
+                        <a href="/admin/kajian/delete/<%= k.id %>" class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="return confirm('Hapus jadwal?')">
+                            <i class="bi bi-trash3 fs-5"></i>
+                        </a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTambahKajian" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 30px;">
+            <div class="modal-body p-5">
+                <h4 class="fw-bold mb-4" style="color: #164230;">Tambah Jadwal Kajian</h4>
+                <form action="/admin/kajian/add" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Judul Kajian</label>
+                        <input type="text" name="judul" class="form-control rounded-4 p-3" placeholder="Contoh: Kajian Fiqih Wanita" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ustadz / Pemateri</label>
+                        <input type="text" name="ustadz" class="form-control rounded-4 p-3" placeholder="Nama Ustadz" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Tanggal</label>
+                            <input type="date" name="tanggal" class="form-control rounded-4 p-3" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Jam (WIB)</label>
+                            <input type="text" name="jam" class="form-control rounded-4 p-3" placeholder="18:30" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tema</label>
+                        <input type="text" name="tema" class="form-control rounded-4 p-3" placeholder="Contoh: Pembahasan Kitab Al-Umm" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Lokasi</label>
+                        <input type="text" name="lokasi" class="form-control rounded-4 p-3" placeholder="Contoh: Ruang Utama Masjid" required>
+                    </div>
+                    <button type="submit" class="btn text-white py-3 w-100 rounded-4 fw-bold" style="background-color: #164230;">Simpan Jadwal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

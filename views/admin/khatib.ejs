@@ -1,0 +1,76 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/sidebar') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0" style="color: #164230;">Manajemen Jadwal Khatib</h4>
+    <button class="btn text-white fw-bold px-4 rounded-pill shadow-sm" style="background-color: #164230;" data-bs-toggle="modal" data-bs-target="#modalTambahKhatib">
+        <i class="bi bi-plus-lg"></i> Tambah Khatib
+    </button>
+</div>
+
+<div class="modern-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="bg-light">
+                <tr class="text-muted small text-uppercase">
+                    <th class="ps-4">Identitas Khatib & Tema</th>
+                    <th>Jadwal Pelaksanaan</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(data && data.length > 0) { %>
+                    <% data.forEach(k => { %>
+                    <tr style="border-bottom: 1px solid #f8f9fa;">
+                        <td class="ps-4 py-3">
+                            <h6 class="fw-bold mb-1" style="color: #164230;"><i class="bi bi-person-badge text-success me-2"></i> <%= k.nama %></h6>
+                            <small class="text-muted"><i class="bi bi-chat-quote-fill text-warning me-1"></i> <%= k.tema %></small>
+                        </td>
+                        <td>
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25">
+                                <i class="bi bi-calendar-event me-1"></i> <%= k.tanggal %>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <a href="/admin/khatib/delete/<%= k.id %>" class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal khatib ini?')">
+                                <i class="bi bi-trash3 fs-5"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3" class="text-center py-5 text-muted">Belum ada jadwal khatib yang didaftarkan.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTambahKhatib" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 30px;">
+            <div class="modal-body p-5">
+                <h4 class="fw-bold mb-4" style="color: #164230;">Tambah Jadwal Khatib</h4>
+                <form action="/admin/khatib/add" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Khatib</label>
+                        <input type="text" name="nama" class="form-control rounded-4 p-3" placeholder="Contoh: Ustadz Fulan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tema Khutbah</label>
+                        <input type="text" name="tema" class="form-control rounded-4 p-3" placeholder="Contoh: Pentingnya Sedekah" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Tanggal Pelaksanaan</label>
+                        <input type="date" name="tanggal" class="form-control rounded-4 p-3" required>
+                    </div>
+                    <button type="submit" class="btn text-white py-3 w-100 rounded-4 fw-bold" style="background-color: #164230;">Simpan Jadwal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>
